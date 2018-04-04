@@ -16,21 +16,24 @@
 
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 if (!$uc) {
-    $uc = 'demandeConnexion';
+    $uc = 'demandeConnexionVisiteur';
 }
 
 switch ($action) {
-case 'demandeConnexion':
-    include 'vues/v_connexion.php';
+case 'demandeConnexionVisiteur':
+    include 'vues/v_connexionVisiteur.php';
     break;
-case 'valideConnexion':
+case 'demandeConnexionComptable':
+    include 'vues/v_connexionComptable.php';
+    break;
+case 'valideConnexionVisiteur':
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
     $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
     $visiteur = $pdo->getInfosVisiteur($login, $mdp);
     if (!is_array($visiteur)) {
         ajouterErreur('Login ou mot de passe incorrect');
         include 'vues/v_erreurs.php';
-        include 'vues/v_connexion.php';
+        include 'vues/v_connexionVisiteur.php';
     } else {
         $id = $visiteur['id'];
         $nom = $visiteur['nom'];
