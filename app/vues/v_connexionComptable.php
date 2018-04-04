@@ -22,7 +22,7 @@
             </div>
             <div class="panel-body">
                 <form role="form" method="post"
-                      action="index.php?uc=connexion&action=valideConnexionComptable">
+                      action="index.php?uc=connexion&action=valideConnexion&type=comptable">
                     <fieldset>
                         <div class="form-group">
                             <div class="input-group">
