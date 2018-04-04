@@ -19,6 +19,9 @@ require_once 'includes/class.pdogsb.inc.php';
 session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
+// Début de la mise en tampon pour éviter les avertissements du type "Warning: Cannot modify header information - headers already sent".
+// En attente d'une solution plus élégante via réecriture du routage.
+ob_start();
 require 'vues/v_entete.php';
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
 if ($uc && !$estConnecte) {
@@ -43,4 +46,6 @@ case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
     break;
 }
+// fin de la mise en tampon.
+ob_end_flush();
 require 'vues/v_pied.php';
