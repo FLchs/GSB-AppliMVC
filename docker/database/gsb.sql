@@ -213,6 +213,26 @@ INSERT INTO `visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, 
 ('f39', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
 ('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comptable`
+--
+
+DROP TABLE IF EXISTS `comptable`;
+CREATE TABLE IF NOT EXISTS `comptable` (
+  `id` char(4) NOT NULL,
+  `nom` char(30) DEFAULT NULL,
+  `prenom` char(30) DEFAULT NULL,
+  `login` char(20) DEFAULT NULL,
+  `mdp` char(20) DEFAULT NULL,
+  `adresse` char(30) DEFAULT NULL,
+  `cp` char(5) DEFAULT NULL,
+  `ville` char(30) DEFAULT NULL,
+  `dateembauche` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Constraints for dumped tables
 --
