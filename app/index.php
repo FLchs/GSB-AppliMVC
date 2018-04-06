@@ -18,7 +18,7 @@ require_once 'includes/fct.inc.php';
 require_once 'includes/class.pdogsb.inc.php';
 session_start();
 $pdo = PdoGsb::getPdoGsb();
-$estConnecte = estConnecte();
+$estConnecte = estConnecteVisiteur() || estConnecteComptable() ? true : false;
 // Début de la mise en tampon pour éviter les avertissements du type "Warning: Cannot modify header information - headers already sent".
 // En attente d'une solution plus élégante via réecriture du routage.
 ob_start();
