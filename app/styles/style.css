@@ -1,3 +1,10 @@
 .header {
     margin-top: 10px;
 }
+
+.nav-pills > li.active-yellow > a,
+.nav-pills > li.active-yellow > a:hover,
+.nav-pills > li.active-yellow > a:focus {
+  color: #fff;
+  background-color: #f0ad4e;
+}
