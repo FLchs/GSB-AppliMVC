@@ -51,6 +51,22 @@ function connecterVisiteur($idVisiteur, $nom, $prenom)
 }
 
 /**
+ * Enregistre dans une variable session les infos d'un comptable
+ *
+ * @param String $idComptable ID du comptable
+ * @param String $nom        Nom du comptable
+ * @param String $prenom     Prénom du comptable
+ *
+ * @return null
+ */
+function connecterComptable($idComptable, $nom, $prenom)
+{
+    $_SESSION['idComptable'] = $idComptable;
+    $_SESSION['nom'] = $nom;
+    $_SESSION['prenom'] = $prenom;
+}
+
+/**
  * Détruit la session active
  *
  * @return null

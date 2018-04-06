@@ -31,20 +31,38 @@ case 'demandeConnexionComptable':
 case 'valideConnexion':
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
     $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
-    if ($type = 'visiteur') {
-        $visiteur = $pdo->getInfosVisiteur($login, $mdp);
-        if (!is_array($visiteur)) {
+    $utilisateur = $pdo->getInfosUtilisateur($type, $login, $mdp);
+    if ($type == 'visiteur') {
+        if (!is_array($utilisateur)) {
             ajouterErreur('Login ou mot de passe incorrect');
             include 'vues/v_erreurs.php';
             include 'vues/v_connexionVisiteur.php';
         } else {
-            $id = $visiteur['id'];
-            $nom = $visiteur['nom'];
-            $prenom = $visiteur['prenom'];
+            $id = $utilisateur['id'];
+            $nom = $utilisateur['nom'];
+            $prenom = $utilisateur['prenom'];
             connecterVisiteur($id, $nom, $prenom);
             header('Location: index.php');
         }
+    } else if ($type == 'comptable') {
+        if (!is_array($utilisateur)) {
+            ajouterErreur('Login ou mot de passe incorrect');
+            include 'vues/v_erreurs.php';
+            include 'vues/v_connexionComptable.php';
+        } else {
+            $id = $utilisateur['id'];
+            $nom = $utilisateur['nom'];
+            $prenom = $utilisateur['prenom'];
+            connecterComptable($id, $nom, $prenom);
+            header('Location: index.php');
+        }
+    } else {
+        // Affiche une erreur si un malin modifie le formulaire pour enlever le type d'utilisateur au lieu d'une page blanche.
+        ajouterErreur('Seuls les visiteurs et les comptables peuvent se connecter.');
+        include 'vues/v_erreurs.php';
+        include 'vues/v_connexion.php';
     }
+
     break;
 default:
     include 'vues/v_connexion.php';

@@ -83,21 +83,32 @@ class PdoGsb
     }
 
     /**
-     * Retourne les informations d'un visiteur
+     * Retourne les informations d'un utilisateur
      *
-     * @param String $login Login du visiteur
-     * @param String $mdp   Mot de passe du visiteur
+     * @param String $type type de l'utilisateur : visiteur ou comptable
+     * @param String $login Login de l'utilisateur
+     * @param String $mdp   Mot de passe de l'utilisateur
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosVisiteur($login, $mdp)
+    public function getInfosUtilisateur($type, $login, $mdp)
     {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
-            . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
-        );
+        if ($type == 'visiteur') {
+            $requetePrepare = PdoGsb::$monPdo->prepare(
+                'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                . 'visiteur.prenom AS prenom '
+                . 'FROM visiteur '
+                . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+            );
+        } else if ($type == 'comptable') {
+            $requetePrepare = PdoGsb::$monPdo->prepare(
+                'SELECT comptable.id AS id, comptable.nom AS nom, '
+                . 'comptable.prenom AS prenom '
+                . 'FROM comptable '
+                . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+            );
+        }
+
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
