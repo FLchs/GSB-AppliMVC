@@ -26,28 +26,45 @@ $estConnecte = $estVisiteur || $estComptable ? true : false;
 ob_start();
 require 'vues/v_entete.php';
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_STRING);
-if ($uc && !$estConnecte) {
-    $uc = 'connexion';
+if (!$estConnecte) {
+    include 'controleurs/c_connexion.php';
 } elseif (empty($uc)) {
     $uc = 'accueil';
 }
-switch ($uc) {
-case 'connexion':
-    include 'controleurs/c_connexion.php';
-    break;
-case 'accueil':
-    include 'controleurs/c_accueil.php';
-    break;
-case 'gererFrais':
-    include 'controleurs/c_gererFrais.php';
-    break;
-case 'etatFrais':
-    include 'controleurs/c_etatFrais.php';
-    break;
-case 'deconnexion':
-    include 'controleurs/c_deconnexion.php';
-    break;
+// Routes communes à tous les utilisateurs connectés
+if ($estConnecte) {
+    switch ($uc) {
+    case 'connexion':
+        include 'controleurs/c_connexion.php';
+        break;
+    case 'accueil':
+        include 'controleurs/c_accueil.php';
+        break;
+    case 'deconnexion':
+        include 'controleurs/c_deconnexion.php';
+        break;
+    }
 }
+// Routes reservées aux visiteurs
+if ($estVisiteur) {
+    switch ($uc) {
+    case 'gererFrais':
+        include 'controleurs/c_gererFrais.php';
+        break;
+    case 'etatFrais':
+        include 'controleurs/c_etatFrais.php';
+        break;
+    }
+}
+// Routes reservées aux comptables
+if ($estComptable) {
+    switch ($uc) {
+    case 'accueil':
+        include 'controleurs/c_accueil.php';
+        break;
+    }
+}
+
 // fin de la mise en tampon.
 ob_end_flush();
 require 'vues/v_pied.php';
