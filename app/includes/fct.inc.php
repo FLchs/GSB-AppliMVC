@@ -19,9 +19,19 @@
  *
  * @return vrai ou faux
  */
-function estConnecte()
+function estConnecteVisiteur()
 {
     return isset($_SESSION['idVisiteur']);
+}
+
+/**
+ * Teste si un quelconque comptable est connecté
+ *
+ * @return vrai ou faux
+ */
+function estConnecteComptable()
+{
+    return isset($_SESSION['idComptable']);
 }
 
 /**
@@ -33,7 +43,7 @@ function estConnecte()
  *
  * @return null
  */
-function connecter($idVisiteur, $nom, $prenom)
+function connecterVisiteur($idVisiteur, $nom, $prenom)
 {
     $_SESSION['idVisiteur'] = $idVisiteur;
     $_SESSION['nom'] = $nom;
