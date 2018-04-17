@@ -497,4 +497,51 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+
+        /**
+         * Retourne les visiteurs
+         *
+         * @return un tableau de tous les visiteurs
+         */
+        public function getLesVisiteurs()
+        {
+
+                $requetePrepare = PdoGsb::$monPdo->prepare(
+                    'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                    . 'visiteur.prenom AS prenom '
+                    . 'FROM visiteur '
+                );
+
+            $requetePrepare->execute();
+            return $requetePrepare->fetchAll();
+        }
+
+        /**
+         * Retourne les mois pour lesquel un visiteur a une fiche de frais
+         *
+         * @param String $idVisiteur ID du visiteur
+         *
+         * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
+         *         l'année et le mois correspondant
+         */
+        public function getTousLesMoisDisponibles()
+        {
+            $requetePrepare = PdoGSB::$monPdo->prepare(
+                'SELECT fichefrais.mois AS mois FROM fichefrais '
+                . 'ORDER BY fichefrais.mois desc'
+            );
+            $requetePrepare->execute();
+            $lesMois = array();
+            while ($laLigne = $requetePrepare->fetch()) {
+                $mois = $laLigne['mois'];
+                $numAnnee = substr($mois, 0, 4);
+                $numMois = substr($mois, 4, 2);
+                $lesMois[$mois] = array(
+                    'mois' => $mois,
+                    'numAnnee' => $numAnnee,
+                    'numMois' => $numMois
+                );
+            }
+            return $lesMois;
+        }
 }
