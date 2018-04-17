@@ -59,8 +59,8 @@ if ($estVisiteur) {
 // Routes reservées aux comptables
 if ($estComptable) {
     switch ($uc) {
-    case 'accueil':
-        include 'controleurs/c_accueil.php';
+    case 'validerfichefrais':
+        include 'controleurs/c_validerFicheFrais.php';
         break;
     }
 }
