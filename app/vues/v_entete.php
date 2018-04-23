@@ -86,15 +86,21 @@
                     </div>
                     <div class="col-md-8">
                         <ul class="nav nav-pills pull-right" role="tablist">
-                            <li <?php if (!$uc || $uc == 'accueil') { ?>class="active" <?php } ?>>
-                                <a href="index.php">
+                            <li <?php if (!$uc || $uc == 'accueil') { ?>class="active-yellow" <?php } ?>>
+                                <a href="index.php" class="yellow">
                                     <span class="glyphicon glyphicon-home"></span>
                                     Accueil
                                 </a>
                             </li>
+                            <li <?php if ($uc == 'validerfichefrais') { ?>class="active-yellow" <?php } ?>>
+                                <a href="index.php?uc=validerfichefrais" class="yellow">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    Valider les fiches de frais
+                                </a>
+                            </li>
                             <li
                             <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=deconnexion&action=demandeDeconnexion">
+                                <a href="index.php?uc=deconnexion&action=demandeDeconnexion" class="yellow">
                                     <span class="glyphicon glyphicon-log-out"></span>
                                     Déconnexion
                                 </a>
