@@ -46,6 +46,8 @@
                                 <option value="<?php echo $mois ?>" <?php
                                     if ($leMois == $mois) {
                                         echo('selected ');
+                                    } elseif (!$lemois && $mois == date('Ym')) {
+                                        echo('selected ');
                                     }
                                     ?>>
                                     <?php echo $numMois . '/' . $numAnnee ?> </option>
