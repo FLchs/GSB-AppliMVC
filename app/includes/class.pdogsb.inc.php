@@ -183,10 +183,10 @@ class PdoGsb
             'SELECT fraisforfait.id as idfrais, '
             . 'fraisforfait.libelle as libelle, '
             . 'lignefraisforfait.quantite as quantite '
-            . 'FROM lignefraisforfait '
-            . 'INNER JOIN fraisforfait '
+            . 'FROM fraisforfait '
+            . 'LEFT JOIN lignefraisforfait '
             . 'ON fraisforfait.id = lignefraisforfait.idfraisforfait '
-            . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+            . 'AND lignefraisforfait.idvisiteur = :unIdVisiteur '
             . 'AND lignefraisforfait.mois = :unMois '
             . 'ORDER BY lignefraisforfait.idfraisforfait'
         );
