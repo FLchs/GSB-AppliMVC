@@ -68,6 +68,22 @@ require 'vues/v_choisirVisiteurMois.php';
 if (empty($laFicheDeFrais)) {
     ajouterErreur('Pas de fiche de frais pour ce visiteur ce mois');
     include 'vues/v_erreurs.php';
+} else {
+    switch ($laFicheDeFrais['idetat']) {
+        case 'RB':
+        ajouterErreur('Fiche déjà remboursée');
+        include 'vues/v_erreurs.php';
+            break;
+        case 'VA':
+        ajouterErreur('Fiche déjà validée');
+        include 'vues/v_erreurs.php';
+            break;
+        case 'CR':
+        ajouterErreur('Fiche non clôturée');
+        include 'vues/v_erreurs.php';
+            break;
+        case 'CL':
+        require 'vues/v_validerFicheFrais.php';
+            break;
+    }
 }
-
-require 'vues/v_validerFicheFrais.php';
