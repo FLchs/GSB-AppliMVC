@@ -46,8 +46,6 @@
                                 <option value="<?php echo $mois ?>" <?php
                                     if ($leMois == $mois) {
                                         echo('selected ');
-                                    } elseif (!$lemois && $mois == date('Ym')) {
-                                        echo('selected ');
                                     }
                                     ?>>
                                     <?php echo $numMois . '/' . $numAnnee ?> </option>
@@ -68,6 +66,7 @@
 <div class="row">
     <div class="col-md-12">
         <h1 class="yellow">Valider la ficher des frais</h1>
+        <?php print_r($lesFraisForfait); ?>
     </div>
 </div>
 <div class="row">

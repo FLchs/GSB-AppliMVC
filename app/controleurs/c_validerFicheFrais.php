@@ -15,9 +15,20 @@ $leMois = filter_input(INPUT_GET, 'mois', FILTER_SANITIZE_STRING);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 
 
+
 $lesVisiteurs = $pdo->getLesVisiteurs();
 $lesMois = $pdo->getTousLesMoisDisponibles();
 $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
+
+// Si aucun mois n'est sélectionné, on choisi le mois en cours par defaut.
+if (!$leMois) {
+    $leMois = date('Ym');
+}
+// Si aucun visiteur n'est sélectionné, on choisi le premier par defaut.
+if (!$idVisiteur) {
+    $idVisiteur = $lesVisiteurs[0]['id'];
+}
+
 switch ($action) {
 case 'validerMajFraisForfait':
     $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -49,6 +60,7 @@ case 'validerMajFraisHorsForfait':
     }
     break;
 }
+echo $leMois;
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
 
