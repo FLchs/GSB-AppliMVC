@@ -66,7 +66,6 @@
 <div class="row">
     <div class="col-md-12">
         <h1 class="yellow">Valider la ficher des frais</h1>
-        <?php print_r($lesFraisForfait); ?>
     </div>
 </div>
 <div class="row">
