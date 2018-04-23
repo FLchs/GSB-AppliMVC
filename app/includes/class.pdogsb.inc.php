@@ -490,13 +490,13 @@ class PdoGsb
     public function getLesInfosFicheFrais($idVisiteur, $mois)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-            'SELECT ficheFrais.idEtat as idEtat, '
-            . 'ficheFrais.dateModif as dateModif,'
-            . 'ficheFrais.nbJustificatifs as nbJustificatifs, '
-            . 'ficheFrais.montantValide as montantValide, '
-            . 'etat.libelle as libEtat '
+            'SELECT fichefrais.idetat as idetat, '
+            . 'fichefrais.datemodif as datemodif,'
+            . 'fichefrais.nbjustificatifs as nbjustificatifs, '
+            . 'fichefrais.montantValide as montantValide, '
+            . 'etat.libelle as libetat '
             . 'FROM fichefrais '
-            . 'INNER JOIN Etat ON ficheFrais.idEtat = Etat.id '
+            . 'INNER JOIN etat ON fichefrais.idetat = etat.id '
             . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
             . 'AND fichefrais.mois = :unMois'
         );
