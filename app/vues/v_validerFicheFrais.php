@@ -107,8 +107,8 @@
     </div>
 </div>
 <div class="row">
-    <form action="./"
-    method="get" role="form">
+    <form action="./?uc=validerfichefrais&visiteur=<?php echo($idVisiteur);?>&mois=<?php echo($leMois);?>&action=validerLaFiche"
+    method="post" role="form">
     <input type="hidden" name="uc" value="validerfichefrais">
         <div class="form-group col-md-6">
             <label for="lstMois" accesskey="n" class="col-md-5 inl-label">Nombre de justificatifs : </label>
@@ -116,12 +116,12 @@
                 <input type="integer" id="libelle"
                    name="justificatif"
                    size="2" maxlength="3"
-                   value=""
+                   value="<?php echo $laFicheDeFrais['nbjustificatifs'] ?>"
                    class="form-control">
             </div>
         </div>
         <div class="form-group col-md-12">
-            <button class="btn btn-success" type="submit">Corriger</button>
+            <button class="btn btn-success" type="submit">Valider</button>
             <button class="btn btn-danger" type="reset">Réinitialiser</button>
         </div>
     </form>

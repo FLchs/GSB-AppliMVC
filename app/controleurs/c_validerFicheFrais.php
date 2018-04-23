@@ -58,6 +58,9 @@ case 'validerMajFraisHorsForfait':
         );
     }
     break;
+case 'validerLaFiche':
+    $pdo->majEtatFicheFrais($idVisiteur, $leMois, 'VA');
+    break;
 }
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
