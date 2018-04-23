@@ -397,6 +397,39 @@ class PdoGsb
     }
 
     /**
+     * Met à jour un frais hors forfait pour un visiteur un mois donné
+     * à partir des informations fournies en paramètre
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     * @param String $libelle    Libellé du frais
+     * @param String $date       Date du frais au format français jj//mm/aaaa
+     * @param Float  $montant    Montant du frais
+     *
+     * @return null
+     */
+    public function majFraisHorsForfait(
+        $libelle,
+        $date,
+        $montant,
+        $id
+    ) {
+        $dateFr = dateFrancaisVersAnglais($date);
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait '
+            . 'SET libelle = :unLibelle, '
+            . 'date = :uneDateFr, '
+            . 'montant = :unMontant '
+            . 'WHERE lignefraishorsforfait.id = :unId '
+        );
+        $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':uneDateFr', $dateFr, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unId', $id, PDO::PARAM_INT);
+        $requetePrepare->execute();
+    }
+
+    /**
      * Supprime le frais hors forfait dont l'id est passé en argument
      *
      * @param String $idFrais ID du frais
