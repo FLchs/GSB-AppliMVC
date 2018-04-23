@@ -61,5 +61,12 @@ case 'validerMajFraisHorsForfait':
 }
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
+$laFicheDeFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
+
+// Verifie si le visiteur posséde une fiche de frais pour le mois choisi
+if (empty($laFicheDeFrais)) {
+    ajouterErreur('Pas de fiche de frais pour ce visiteur ce mois');
+    include 'vues/v_erreurs.php';
+}
 
 require 'vues/v_validerFicheFrais.php';
