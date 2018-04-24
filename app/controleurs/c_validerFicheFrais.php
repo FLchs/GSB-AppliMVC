@@ -78,8 +78,9 @@ if (empty($laFicheDeFrais)) {
         include 'vues/v_erreurs.php';
             break;
         case 'VA':
-        ajouterErreur('Fiche déjà validée');
-        include 'vues/v_erreurs.php';
+        ajouterErreur('Attention fiche déjà validée');
+        include 'vues/v_avertissement.php';
+        require 'vues/v_validerFicheFrais.php';
             break;
         case 'CR':
         ajouterErreur('Fiche non clôturée');
