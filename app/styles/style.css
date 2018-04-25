@@ -3,14 +3,14 @@
 }
 
 .nav-pills > li.active-yellow > a,
-.panel-info > .panel-heading {
+.panel-info-yellow > .panel-heading,
+.panel-yellow > .panel-heading {
   color: #fff;
   background-color: #f0ad4e;
 }
 
 .nav-pills > li.active-yellow > a:hover,
-.nav-pills > li.active-yellow > a:focus,
-.panel-info > .panel-heading {
+.nav-pills > li.active-yellow > a:focus {
 background-color: #ec971f;
 border-color: #d58512;
 }
@@ -28,7 +28,9 @@ a.yellow:hover{
   margin: 0;
 }
 
-.panel-info-yellow {
+.panel-info-yellow,
+.panel-yellow,
+.panel-yellow > .panel-heading  {
   border-color: #d58512;
 }
 
