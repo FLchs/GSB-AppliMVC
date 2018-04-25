@@ -116,7 +116,7 @@
                 <input type="integer" id="libelle"
                    name="justificatif"
                    size="2" maxlength="3"
-                   value="<?php echo $laFicheDeFrais['nbjustificatifs'] ?>"
+                   value="<?php echo $laFicheDeFrais['nbJustificatifs'] ?>"
                    class="form-control">
             </div>
         </div>

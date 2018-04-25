@@ -72,7 +72,7 @@ if (empty($laFicheDeFrais)) {
     ajouterErreur('Pas de fiche de frais pour ce visiteur ce mois');
     include 'vues/v_erreurs.php';
 } else {
-    switch ($laFicheDeFrais['idetat']) {
+    switch ($laFicheDeFrais['idEtat']) {
         case 'RB':
         ajouterErreur('Fiche déjà remboursée');
         include 'vues/v_erreurs.php';

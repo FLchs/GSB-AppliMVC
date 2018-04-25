@@ -62,6 +62,9 @@ if ($estComptable) {
     case 'validerfichefrais':
         include 'controleurs/c_validerFicheFrais.php';
         break;
+    case 'suivrepaiement':
+        include 'controleurs/c_suivrePaiement.php';
+        break;
     }
 }
 

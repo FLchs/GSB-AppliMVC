@@ -77,14 +77,14 @@
                 ?>
             <div class="header">
                 <div class="row vertical-align">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <h1>
                             <img src="./images/logo.jpg" class="img-responsive"
                                  alt="Laboratoire Galaxy-Swiss Bourdin"
                                  title="Laboratoire Galaxy-Swiss Bourdin">
                         </h1>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <ul class="nav nav-pills pull-right" role="tablist">
                             <li <?php if (!$uc || $uc == 'accueil') { ?>class="active-yellow" <?php } ?>>
                                 <a href="index.php" class="yellow">
@@ -96,6 +96,12 @@
                                 <a href="index.php?uc=validerfichefrais" class="yellow">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     Valider les fiches de frais
+                                </a>
+                            </li>
+                            <li <?php if ($uc == 'suivrepaiement') { ?>class="active-yellow" <?php } ?>>
+                                <a href="index.php?uc=suivrepaiement" class="yellow">
+                                    <span class="glyphicon glyphicon-eur"></span>
+                                    Suivre le paiement des fiches de frais
                                 </a>
                             </li>
                             <li
