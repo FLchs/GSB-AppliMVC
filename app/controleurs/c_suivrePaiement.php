@@ -14,10 +14,8 @@ $idVisiteur = filter_input(INPUT_GET, 'visiteur', FILTER_SANITIZE_STRING);
 $leMois = filter_input(INPUT_GET, 'mois', FILTER_SANITIZE_STRING);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 
-
 $lesVisiteurs = $pdo->getLesVisiteurs();
 $lesMois = $pdo->getTousLesMoisDisponibles();
-$pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
 
 // Si aucun mois n'est sélectionné, on choisi le mois en cours par defaut.
 if (!$leMois) {
@@ -26,8 +24,6 @@ if (!$leMois) {
 $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
 
-
-echo $numMois;
 // Si aucun visiteur n'est sélectionné, on choisi le premier par defaut.
 if (!$idVisiteur) {
     $idVisiteur = $lesVisiteurs[0]['id'];
@@ -54,21 +50,4 @@ if (empty($laFicheDeFrais)) {
     include 'vues/v_erreurs.php';
 } else {
     require 'vues/v_suivrePaiement.php';
-    // switch ($laFicheDeFrais['idEtat']) {
-    //     case 'RB':
-    //     ajouterErreur('Fiche déjà remboursée');
-    //     include 'vues/v_erreurs.php';
-    //         break;
-    //     case 'VA':
-    //     require 'vues/v_suivrePaiement.php';
-    //         break;
-    //     case 'CR':
-    //     ajouterErreur('Fiche non clôturée');
-    //     include 'vues/v_erreurs.php';
-    //         break;
-    //     case 'CL':
-    //     ajouterErreur('Fiche non validée');
-    //     include 'vues/v_erreurs.php';
-    //         break;
-    // }
 }
