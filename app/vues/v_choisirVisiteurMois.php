@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <form action="./"
         method="get" role="form">
-        <input type="hidden" name="uc" value="validerfichefrais">
+        <input type="hidden" name="uc" value="<?php echo $uc; ?>">
             <div class="form-group col-md-5">
                 <label for="lstMois" accesskey="n" class="col-md-5 inl-label">Choisir visiteur : </label>
                 <div class="col-md-7">
@@ -40,15 +40,15 @@
                         <?php
                         foreach ($lesMois as $unMois) {
                             $mois = $unMois['mois'];
-                            $numAnnee = $unMois['numAnnee'];
-                            $numMois = $unMois['numMois'];
+                            $nAnnee = $unMois['numAnnee'];
+                            $nMois = $unMois['numMois'];
                                 ?>
                                 <option value="<?php echo $mois ?>" <?php
                                     if ($leMois == $mois) {
                                         echo('selected ');
                                     }
                                     ?>>
-                                    <?php echo $numMois . '/' . $numAnnee ?> </option>
+                                    <?php echo $nMois . '/' . $nAnnee ?> </option>
                                 <?php
                             }
                         ?>
