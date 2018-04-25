@@ -1,3 +1,43 @@
 .header {
     margin-top: 10px;
 }
+
+.nav-pills > li.active-yellow > a,
+.panel-info > .panel-heading {
+  color: #fff;
+  background-color: #f0ad4e;
+}
+
+.nav-pills > li.active-yellow > a:hover,
+.nav-pills > li.active-yellow > a:focus,
+.panel-info > .panel-heading {
+background-color: #ec971f;
+border-color: #d58512;
+}
+
+.yellow {
+  color: #f0ad4e;
+}
+
+a.yellow:hover{
+  color: #ec971f;
+}
+
+.inl-label {
+  line-height: 34px;
+  margin: 0;
+}
+
+.panel-info-yellow {
+  border-color: #d58512;
+}
+
+.table-bordered-yellow > thead > tr > th,
+.table-bordered-yellow > tbody > tr > th,
+.table-bordered-yellow > tfoot > tr > th,
+.table-bordered-yellow > thead > tr > td,
+.table-bordered-yellow > tbody > tr > td,
+.table-bordered-yellow > tfoot > tr > td {
+  border-width: 1px;
+  border-color: #d58512;
+}

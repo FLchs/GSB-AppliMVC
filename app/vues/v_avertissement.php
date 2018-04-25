@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestion de l'accueil
+ * Vue Erreurs
  *
  * PHP Version 7
  *
@@ -13,11 +13,11 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
-if ($estVisiteur) {
-    include 'vues/v_accueilVisiteur.php';
-} elseif ($estComptable) {
-    include 'vues/v_accueilComptable.php';
-} else {
-    include 'vues/v_connexion.php';
-}
+?>
+<div class="alert alert-warning" role="alert">
+    <?php
+    foreach ($_REQUEST['erreurs'] as $erreur) {
+        echo '<p>' . htmlspecialchars($erreur) . '</p>';
+    }
+    ?>
+</div>

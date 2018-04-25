@@ -15,29 +15,54 @@
  */
 
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+$type = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_STRING);
+
 if (!$uc) {
-    $uc = 'demandeConnexion';
+    $uc = 'demandeConnexionVisiteur';
 }
 
 switch ($action) {
-case 'demandeConnexion':
-    include 'vues/v_connexion.php';
+case 'demandeConnexionVisiteur':
+    include 'vues/v_connexionVisiteur.php';
+    break;
+case 'demandeConnexionComptable':
+    include 'vues/v_connexionComptable.php';
     break;
 case 'valideConnexion':
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
     $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
-    $visiteur = $pdo->getInfosVisiteur($login, $mdp);
-    if (!is_array($visiteur)) {
-        ajouterErreur('Login ou mot de passe incorrect');
+    $utilisateur = $pdo->getInfosUtilisateur($type, $login, $mdp);
+    if ($type == 'visiteur') {
+        if (!is_array($utilisateur)) {
+            ajouterErreur('Login ou mot de passe incorrect');
+            include 'vues/v_erreurs.php';
+            include 'vues/v_connexionVisiteur.php';
+        } else {
+            $id = $utilisateur['id'];
+            $nom = $utilisateur['nom'];
+            $prenom = $utilisateur['prenom'];
+            connecterVisiteur($id, $nom, $prenom);
+            header('Location: index.php');
+        }
+    } else if ($type == 'comptable') {
+        if (!is_array($utilisateur)) {
+            ajouterErreur('Login ou mot de passe incorrect');
+            include 'vues/v_erreurs.php';
+            include 'vues/v_connexionComptable.php';
+        } else {
+            $id = $utilisateur['id'];
+            $nom = $utilisateur['nom'];
+            $prenom = $utilisateur['prenom'];
+            connecterComptable($id, $nom, $prenom);
+            header('Location: index.php');
+        }
+    } else {
+        // Affiche une erreur si un malin modifie le formulaire pour enlever le type d'utilisateur au lieu d'une page blanche.
+        ajouterErreur('Seuls les visiteurs et les comptables peuvent se connecter.');
         include 'vues/v_erreurs.php';
         include 'vues/v_connexion.php';
-    } else {
-        $id = $visiteur['id'];
-        $nom = $visiteur['nom'];
-        $prenom = $visiteur['prenom'];
-        connecter($id, $nom, $prenom);
-        header('Location: index.php');
     }
+
     break;
 default:
     include 'vues/v_connexion.php';
