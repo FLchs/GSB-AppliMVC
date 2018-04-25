@@ -79,11 +79,29 @@
 
 
 <div class="row">
+<?php if ($libEtat == 'Validée') { ?>
     <form action="./?uc=suivrepaiement&visiteur=<?php echo($idVisiteur);?>&mois=<?php echo($leMois);?>&action=mettreEnPaiement"
     method="post" role="form">
     <input type="hidden" name="uc" value="validerfichefrais">
         <div class="form-group col-md-12">
-            <button class="btn btn-success" type="submit">Valider</button>
+            <h3 class="yellow">Changer état :</h1>
+            <button class="btn btn-warning" type="submit">
+                <span class="glyphicon glyphicon-euro"></span>
+                En paiement
+            </button>
         </div>
     </form>
+<?php } elseif ($libEtat == 'Mise en paiement') { ?>
+    <form action="./?uc=suivrepaiement&visiteur=<?php echo($idVisiteur);?>&mois=<?php echo($leMois);?>&action=rembourser"
+    method="post" role="form">
+    <input type="hidden" name="uc" value="validerfichefrais">
+        <div class="form-group col-md-12">
+            <h3 class="yellow">Changer état :</h1>
+            <button class="btn btn-success" type="submit">
+                <span class="glyphicon glyphicon-retweet"></span>
+                Remboursement émis
+            </button>
+        </div>
+    </form>
+<?php } ?>
 </div>

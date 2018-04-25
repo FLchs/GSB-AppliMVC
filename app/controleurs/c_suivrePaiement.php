@@ -31,6 +31,9 @@ if (!$idVisiteur) {
 
 switch ($action) {
 case 'mettreEnPaiement':
+    $pdo->majEtatFicheFrais($idVisiteur, $leMois, 'MP');
+    break;
+case 'rembourser':
     $pdo->majEtatFicheFrais($idVisiteur, $leMois, 'RB');
     break;
 }
