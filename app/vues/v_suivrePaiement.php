@@ -60,16 +60,20 @@ namespace ns;
             <th class="date">Date</th>
             <th class="libelle">Libellé</th>
             <th class='montant'>Montant</th>
+            <th class="action"></th>
         </tr>
         <?php
         foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
             $date = $unFraisHorsForfait['date'];
             $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-            $montant = $unFraisHorsForfait['montant']; ?>
+            $montant = $unFraisHorsForfait['montant'];
+            $id = $unFraisHorsForfait['id']; ?>
             <tr>
                 <td><?php echo $date ?></td>
                 <td><?php echo $libelle ?></td>
                 <td><?php echo $montant ?></td>
+                <td><a href="./?uc=suivrepaiement&visiteur=<?php echo($idVisiteur);?>&mois=<?php echo($leMois);?>&id=<?php echo $id ?>&action=refuser"
+                       onclick="return confirm('Voulez-vous vraiment refuser ce frais?');">Refuser ce frais</a></td>
             </tr>
             <?php
         }

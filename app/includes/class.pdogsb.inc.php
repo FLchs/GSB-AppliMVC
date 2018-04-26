@@ -326,6 +326,31 @@ class PdoGsb
     }
 
     /**
+     * Verifie qu'une fiche de frais existe pour un visiteur et un mois
+     * donnés en parametre
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois ID du visiteur
+     *
+     * @return Bool
+     */
+    public function ficheDeFraisExiste($idVisiteur, $mois)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT * FROM fichefrais '
+            . 'WHERE fichefrais.mois = :unMois '
+            . 'AND fichefrais.idvisiteur = :unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        if ($requetePrepare->fetch()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Crée une nouvelle fiche de frais et les lignes de frais au forfait
      * pour un visiteur et un mois donnés
      *
@@ -451,6 +476,38 @@ class PdoGsb
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+
+    /**
+     * Refuse un frais hors forfait en rajoutant "REFUSÉ" devant son libelle
+     * et en le reportant au mois suivant.
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     * @param Integer $idFrais l'ID du frais
+     *
+     * @return null
+     */
+    public function refuserFraisHorsForfait(
+        $idVisiteur,
+        $mois,
+        $idFrais
+    ) {
+        $unMois = $mois+1;
+        if (!$this->ficheDeFraisExiste($idVisiteur, $unMois)) {
+            $this->creeNouvellesLignesFrais($idVisiteur, $unMois);
+        }
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraishorsforfait '
+            . 'SET libelle = CONCAT("REFUSÉ ",libelle), '
+            . 'mois = :unMois '
+            . 'WHERE lignefraishorsforfait.id = :unId '
+        );
+        $requetePrepare->bindParam(':unId', $idFrais, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unMois', $unMois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        print_r($requetePrepare->errorInfo());
+
     }
 
     /**
