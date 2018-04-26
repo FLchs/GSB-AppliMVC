@@ -38,6 +38,14 @@
 
 class PdoGsb
 {
+    /**
+    * @var String $serveur Serveur de la base de données
+    * @var String $bdd Base de données utilisée par l'application
+    * @var String $user Identifiant de connexion à la bdd
+    * @var String $mdp Mot de passe de connexion à la bdd
+    * @var PDO $monPdo PDO utilisé pour la connexion
+    * @var null/PdoGSB Singleton de la classe
+    */
     private static $serveur = 'mysql:host=db';
     private static $bdd = 'dbname=gsb';
     private static $user = 'gsb';
@@ -400,11 +408,10 @@ class PdoGsb
      * Met à jour un frais hors forfait pour un visiteur un mois donné
      * à partir des informations fournies en paramètre
      *
-     * @param String $idVisiteur ID du visiteur
-     * @param String $mois       Mois sous la forme aaaamm
      * @param String $libelle    Libellé du frais
      * @param String $date       Date du frais au format français jj//mm/aaaa
      * @param Float  $montant    Montant du frais
+     * @param Integer $id        ID du frais
      *
      * @return null
      */

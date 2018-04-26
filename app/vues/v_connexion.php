@@ -10,6 +10,7 @@
  * @version   GIT: <0>
  * @link      https://github.com/FLchs/GSB-AppliMVC
  */
+namespace ns;
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">

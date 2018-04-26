@@ -13,11 +13,12 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+namespace ns;
 ?>
 <div id="accueil">
     <h2>
-        Gestion des frais<small> - Visiteur : 
-            <?php 
+        Gestion des frais<small> - Visiteur :
+            <?php
             echo $_SESSION['prenom'] . ' ' . $_SESSION['nom']
             ?></small>
     </h2>
