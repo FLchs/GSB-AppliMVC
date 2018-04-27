@@ -13,6 +13,8 @@
 $idVisiteur = filter_input(INPUT_GET, 'visiteur', FILTER_SANITIZE_STRING);
 $leMois = filter_input(INPUT_GET, 'mois', FILTER_SANITIZE_STRING);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
+$fraisHorsForfait = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+
 
 $lesVisiteurs = $pdo->getLesVisiteurs();
 $lesMois = $pdo->getTousLesMoisDisponibles();
@@ -35,6 +37,9 @@ case 'mettreEnPaiement':
     break;
 case 'rembourser':
     $pdo->majEtatFicheFrais($idVisiteur, $leMois, 'RB');
+    break;
+case 'refuser':
+    $pdo->refuserFraisHorsForfait($idVisiteur, $leMois, $fraisHorsForfait);
     break;
 }
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
