@@ -104,23 +104,32 @@ class PdoGsb
         if ($type == 'visiteur') {
             $requetePrepare = PdoGsb::$monPdo->prepare(
                 'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-                . 'visiteur.prenom AS prenom '
+                . 'visiteur.prenom AS prenom, '
+                . 'visiteur.mdp AS mdp '
                 . 'FROM visiteur '
-                . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+                . 'WHERE visiteur.login = :unLogin'
             );
         } elseif ($type == 'comptable') {
             $requetePrepare = PdoGsb::$monPdo->prepare(
                 'SELECT comptable.id AS id, comptable.nom AS nom, '
-                . 'comptable.prenom AS prenom '
+                . 'comptable.prenom AS prenom, '
+                . 'comptable.mdp AS mdp '
                 . 'FROM comptable '
-                . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+                . 'WHERE comptable.login = :unLogin'
             );
         }
 
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetch();
+        $utilisateur = $requetePrepare->fetch();
+        if (password_verify($mdp, $utilisateur['mdp'])) {
+            // Pas besoin de garder le hash du mdp
+            unset($utilisateur['mdp']);
+            return $utilisateur;
+        } else {
+            return false;
+        }
+
     }
 
     /**
