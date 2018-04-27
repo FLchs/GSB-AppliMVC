@@ -108,7 +108,7 @@ class PdoGsb
                 . 'FROM visiteur '
                 . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
             );
-        } else if ($type == 'comptable') {
+        } elseif ($type == 'comptable') {
             $requetePrepare = PdoGsb::$monPdo->prepare(
                 'SELECT comptable.id AS id, comptable.nom AS nom, '
                 . 'comptable.prenom AS prenom '
@@ -507,7 +507,6 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $unMois, PDO::PARAM_STR);
         $requetePrepare->execute();
         print_r($requetePrepare->errorInfo());
-
     }
 
     /**
@@ -595,50 +594,49 @@ class PdoGsb
         $requetePrepare->execute();
     }
 
-        /**
-         * Retourne les visiteurs
-         *
-         * @return un tableau de tous les visiteurs
-         */
-        public function getLesVisiteurs()
-        {
-
-                $requetePrepare = PdoGsb::$monPdo->prepare(
+    /**
+     * Retourne les visiteurs
+     *
+     * @return un tableau de tous les visiteurs
+     */
+    public function getLesVisiteurs()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
                     'SELECT visiteur.id AS id, visiteur.nom AS nom, '
                     . 'visiteur.prenom AS prenom '
                     . 'FROM visiteur '
                 );
 
-            $requetePrepare->execute();
-            return $requetePrepare->fetchAll();
-        }
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
 
-        /**
-         * Retourne les mois pour lesquel un visiteur a une fiche de frais
-         *
-         * @param String $idVisiteur ID du visiteur
-         *
-         * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
-         *         l'année et le mois correspondant
-         */
-        public function getTousLesMoisDisponibles()
-        {
-            $requetePrepare = PdoGSB::$monPdo->prepare(
+    /**
+     * Retourne les mois pour lesquel un visiteur a une fiche de frais
+     *
+     * @param String $idVisiteur ID du visiteur
+     *
+     * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
+     *         l'année et le mois correspondant
+     */
+    public function getTousLesMoisDisponibles()
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
                 'SELECT fichefrais.mois AS mois FROM fichefrais '
                 . 'ORDER BY fichefrais.mois desc'
             );
-            $requetePrepare->execute();
-            $lesMois = array();
-            while ($laLigne = $requetePrepare->fetch()) {
-                $mois = $laLigne['mois'];
-                $numAnnee = substr($mois, 0, 4);
-                $numMois = substr($mois, 4, 2);
-                $lesMois[$mois] = array(
+        $requetePrepare->execute();
+        $lesMois = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $lesMois[$mois] = array(
                     'mois' => $mois,
                     'numAnnee' => $numAnnee,
                     'numMois' => $numMois
                 );
-            }
-            return $lesMois;
         }
+        return $lesMois;
+    }
 }
