@@ -164,6 +164,30 @@ INSERT INTO `lignefraishorsforfait` (`id`, `idvisiteur`, `mois`, `libelle`, `dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lignefraiskilometrique`
+--
+
+DROP TABLE IF EXISTS `lignefraiskilometrique`;
+CREATE TABLE IF NOT EXISTS `lignefraiskilometrique` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idvisiteur` char(4) NOT NULL,
+  `mois` char(6) NOT NULL,
+  `idvehicule` varchar(10) NOT NULL,
+  `distance` integer(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idvisiteur` (`idvisiteur`,`idvehicule`, `mois`)
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lignefraiskilometrique`
+--
+
+INSERT INTO `lignefraiskilometrique` (`id`, `idvisiteur`, `mois`, `idvehicule`, `distance`) VALUES
+(1, 'a17', '201804', 'AA-123-AA', '125');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vehicule`
 --
 
@@ -286,6 +310,13 @@ INSERT INTO `comptable` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`,
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `vehicule`
+--
+ALTER TABLE `vehicule`
+  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`idvisiteur`) REFERENCES `visiteur` (`id`),
+  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`idpuissance`) REFERENCES `puissancevehicule` (`id`);
 
 --
 -- Constraints for table `vehicule`
