@@ -164,6 +164,53 @@ INSERT INTO `lignefraishorsforfait` (`id`, `idvisiteur`, `mois`, `libelle`, `dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vehicule`
+--
+
+DROP TABLE IF EXISTS `vehicule`;
+CREATE TABLE IF NOT EXISTS `vehicule` (
+  `immatriculation` varchar(20) NOT NULL,
+  `idvisiteur` char(4) NOT NULL,
+  `idpuissance` char(4) NOT NULL,
+  PRIMARY KEY (`immatriculation`),
+  KEY `idvisiteur` (`idvisiteur`,`immatriculation`)
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vehicule`
+--
+
+INSERT INTO `vehicule` (`immatriculation`, `idvisiteur`, `idpuissance`) VALUES
+('AA-123-AA', 'a17', '5D');
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `puissancevehicule`
+--
+
+DROP TABLE IF EXISTS `puissancevehicule`;
+CREATE TABLE IF NOT EXISTS `puissancevehicule` (
+  `id` char(3) NOT NULL,
+  `puissance` varchar(20) DEFAULT NULL,
+  `bareme` decimal(5,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fraisforfait`
+--
+
+INSERT INTO `puissancevehicule` (`id`, `puissance`, `bareme`) VALUES
+('4D', '4CV Diesel', '0.52'),
+('5D', '5/6CV Diesel', '0.58'),
+('4E', '4CV Essence', '0.62'),
+('5E', '5/6CV Essence', '0.67'),
+('GPL', 'GPL', '0.49');
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `visiteur`
 --
 
@@ -239,6 +286,13 @@ INSERT INTO `comptable` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`,
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `vehicule`
+--
+ALTER TABLE `vehicule`
+  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`idvisiteur`) REFERENCES `visiteur` (`id`),
+  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`idpuissance`) REFERENCES `puissancevehicule` (`id`);
 
 --
 -- Constraints for table `fichefrais`
