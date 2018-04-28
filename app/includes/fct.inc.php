@@ -246,6 +246,24 @@ function valideInfosFrais($dateFrais, $libelle, $montant)
 }
 
 /**
+ * Vérifie la validité d'un argument : la distance
+ *
+ * Des message d'erreurs sont ajoutés au tableau des erreurs
+ *
+ * @param Integer $distance   Libellé des frais
+ *
+ * @return null
+ */
+function valideFraisKilometrique($distance)
+{
+    if ($distance >= '100000') {
+        ajouterErreur('Le champ distance ne peut pas être supérieure à 100 000 km');
+    } elseif (!is_numeric($distance)) {
+        ajouterErreur('Le champ distance doit être numérique');
+    }
+}
+
+/**
  * Ajoute le libellé d'une erreur au tableau des erreurs
  *
  * @param String $msg Libellé de l'erreur
