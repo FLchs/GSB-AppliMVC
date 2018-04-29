@@ -58,12 +58,33 @@ case 'validerMajFraisHorsForfait':
         );
     }
     break;
+case 'validerMajFraisKilometriques':
+    $idvehicule = filter_input(INPUT_POST, 'idvehicule', FILTER_SANITIZE_STRING);
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
+    $distance = filter_input(INPUT_POST, 'distance', FILTER_VALIDATE_FLOAT);
+    valideFraisKilometrique($distance);
+    if (nbErreurs() != 0) {
+        include 'vues/v_erreurs.php';
+    } else {
+        $pdo->majFraisKilometriques(
+            $id,
+            $idvehicule,
+            $distance
+        );
+    }
+    break;
 case 'validerLaFiche':
     $pdo->majEtatFicheFrais($idVisiteur, $leMois, 'VA');
+    break;
+case 'supprimerFraisKilometrique':
+    $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_STRING);
+    $pdo->supprimerFraisKilometrique($idFrais);
     break;
 }
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $leMois);
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $leMois);
+$lesFraisKilometriques = $pdo->getLesFraisKilometriques($idVisiteur, $leMois);
+$lesVehicules = $pdo->getLesVehicules($idVisiteur);
 $laFicheDeFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $leMois);
 
 require 'vues/v_choisirVisiteurMois.php';

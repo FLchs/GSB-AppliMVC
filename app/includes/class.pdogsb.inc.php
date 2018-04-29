@@ -176,6 +176,7 @@ class PdoGsb
         $requetePrepare = PdoGsb::$monPdo->prepare(
             'SELECT lignefraiskilometrique.idvehicule AS vehicule, '
             . 'lignefraiskilometrique.distance as distance, '
+            . 'lignefraiskilometrique.id as id, '
             . 'FORMAT(lignefraiskilometrique.distance * puissancevehicule.bareme, 2, \'fr_FR\')  as montant '
             . 'FROM lignefraiskilometrique '
             . 'LEFT JOIN vehicule '
@@ -237,6 +238,32 @@ class PdoGsb
         $requetePrepare->bindParam(':uneDistance', $distance, PDO::PARAM_INT);
         $requetePrepare->execute();
         print_r($requetePrepare->errorInfo());
+    }
+
+    /**
+     * Met à jour un frais kilométrique pour un id et une distance donnés
+     * à partir des informations fournies en paramètre
+     *
+     * @param String $id    Libellé du frais
+     * @param Integer $distance       Date du frais au format français jj//mm/aaaa
+     *
+     * @return null
+     */
+    public function majFraisKilometriques(
+        $id,
+        $idvehicule,
+        $distance
+    ) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraiskilometrique '
+            . 'SET distance = :uneDistance, '
+            . 'idvehicule = :unIdVehicule '
+            . 'WHERE lignefraiskilometrique.id = :unId '
+        );
+        $requetePrepare->bindParam(':uneDistance', $distance, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unId', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unIdVehicule', $idvehicule, PDO::PARAM_STR);
+        $requetePrepare->execute();
     }
 
     /**
