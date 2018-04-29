@@ -71,10 +71,9 @@ CREATE TABLE IF NOT EXISTS `fichefrais` (
 INSERT INTO `fichefrais` (`idvisiteur`, `mois`, `nbjustificatifs`, `montantvalide`, `datemodif`, `idetat`) VALUES
 ('a17', '201801', 0, '0.00', '2018-01-12', 'CR'),
 ('a17', '201803', 0, '0.00', '2018-03-03', 'CR'),
-('a17', '201804', 0, '0.00', '2018-04-01', 'CR'),
-('a17', '201805', NULL, NULL, NULL, 'CR'),
-('a17', '201904', NULL, NULL, NULL, 'CR'),
-('a17', '201905', NULL, NULL, NULL, 'CR');
+('a17', '201804', 0, '0.00', '2018-04-01', 'CL'),
+('a17', '201805', NULL, NULL, NULL, 'CR');
+
 
 -- --------------------------------------------------------
 
@@ -129,8 +128,7 @@ INSERT INTO `lignefraisforfait` (`idvisiteur`, `mois`, `idfraisforfait`, `quanti
 ('a17', '201804', 'ETP', 10),
 ('a17', '201804', 'NUI', 0),
 ('a17', '201804', 'REP', 0),
-('a17', '201805', 'ETP', 4),
-('a17', '201904', 'ETP', 6);
+('a17', '201805', 'ETP', 4);
 
 -- --------------------------------------------------------
 
@@ -179,7 +177,8 @@ CREATE TABLE IF NOT EXISTS `lignefraiskilometrique` (
 --
 
 INSERT INTO `lignefraiskilometrique` (`id`, `idvisiteur`, `mois`, `idvehicule`, `distance`) VALUES
-(1, 'a17', '201804', 'AA-123-AA', '125');
+(1, 'a17', '201804', 'AA-123-AA', '125'),
+(2, 'a17', '201804', 'ZZ-999-AA', '432');
 
 -- --------------------------------------------------------
 
@@ -201,7 +200,9 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
 --
 
 INSERT INTO `vehicule` (`immatriculation`, `idvisiteur`, `idpuissance`) VALUES
-('AA-123-AA', 'a17', '5D');
+('AA-123-AA', 'a17', '5D'),
+('ZZ-999-AA', 'a17', '4e');
+
 -- --------------------------------------------------------
 
 --
@@ -317,9 +318,9 @@ ALTER TABLE `vehicule`
 --
 -- Constraints for table `vehicule`
 --
-ALTER TABLE `vehicule`
-  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`idvisiteur`) REFERENCES `visiteur` (`id`),
-  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`idpuissance`) REFERENCES `puissancevehicule` (`id`);
+ALTER TABLE `lignefraiskilometrique`
+  ADD CONSTRAINT `lignefraiskilometrique_ibfk_1` FOREIGN KEY (`idvehicule`) REFERENCES `vehicule` (`immatriculation`),
+  ADD CONSTRAINT `lignefraiskilometrique_ibfk_2` FOREIGN KEY (`idvisiteur`,`mois`) REFERENCES `fichefrais` (`idvisiteur`, `mois`);
 
 --
 -- Constraints for table `fichefrais`
