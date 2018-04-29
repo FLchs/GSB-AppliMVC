@@ -96,7 +96,6 @@ CREATE TABLE IF NOT EXISTS `fraisforfait` (
 
 INSERT INTO `fraisforfait` (`id`, `libelle`, `montant`) VALUES
 ('ETP', 'Forfait Etape', '110.00'),
-('KM', 'Frais Kilométrique', '0.62'),
 ('NUI', 'Nuitée Hôtel', '80.00'),
 ('REP', 'Repas Restaurant', '25.00');
 
@@ -122,15 +121,12 @@ CREATE TABLE IF NOT EXISTS `lignefraisforfait` (
 
 INSERT INTO `lignefraisforfait` (`idvisiteur`, `mois`, `idfraisforfait`, `quantite`) VALUES
 ('a17', '201801', 'ETP', 2),
-('a17', '201801', 'KM', 25),
 ('a17', '201801', 'NUI', 1),
 ('a17', '201801', 'REP', 2),
 ('a17', '201803', 'ETP', 21),
-('a17', '201803', 'KM', 10),
 ('a17', '201803', 'NUI', 1),
 ('a17', '201803', 'REP', 5),
 ('a17', '201804', 'ETP', 10),
-('a17', '201804', 'KM', 0),
 ('a17', '201804', 'NUI', 0),
 ('a17', '201804', 'REP', 0),
 ('a17', '201805', 'ETP', 4),
