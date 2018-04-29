@@ -174,7 +174,14 @@ class PdoGsb
     public function getLesFraisKilometriques($idVisiteur, $mois)
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT * FROM lignefraiskilometrique '
+            'SELECT lignefraiskilometrique.idvehicule AS vehicule, '
+            . 'lignefraiskilometrique.distance as distance, '
+            . 'FORMAT(lignefraiskilometrique.distance * puissancevehicule.bareme, 2, \'fr_FR\')  as montant '
+            . 'FROM lignefraiskilometrique '
+            . 'LEFT JOIN vehicule '
+            . 'ON lignefraiskilometrique.idvehicule = vehicule.immatriculation '
+            . 'LEFT JOIN puissancevehicule '
+            . 'ON vehicule.idpuissance = puissancevehicule.id '
             . 'WHERE lignefraiskilometrique.idvisiteur = :unIdVisiteur '
             . 'AND lignefraiskilometrique.mois = :unMois'
         );

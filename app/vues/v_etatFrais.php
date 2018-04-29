@@ -48,6 +48,38 @@ namespace ns;
         </tr>
     </table>
 </div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading">Frais Kilométrique</div>
+    <table class="table table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th class="date">Véhicule</th>
+                <th class="libelle">Distance</th>
+                <th class="montant">Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($lesFraisKilometriques as $unFraisKilometriques) {
+            $libelle = htmlspecialchars($unFraisKilometriques['libelle']);
+            $id = $unFraisKilometriques['id'];
+            $vehicule = $unFraisKilometriques['vehicule'];
+            $distance = $unFraisKilometriques['distance'];
+            $montant = $unFraisKilometriques['montant'];?>
+             <tr>
+                 <td> <?php echo $vehicule ?></td>
+                 <td> <?php echo $distance ?></td>
+                 <td> <?php echo $montant ?></td>
+             </tr>
+            <?php
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
+
 <div class="panel panel-info">
     <div class="panel-heading">Descriptif des éléments hors forfait -
         <?php echo $nbJustificatifs ?> justificatifs reçus</div>
