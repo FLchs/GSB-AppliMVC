@@ -31,7 +31,7 @@ namespace ns;
                 foreach ($lesFraisKilometriques as $unFraisKilometriques) {
                     $libelle = htmlspecialchars($unFraisKilometriques['libelle']);
                     $id = $unFraisKilometriques['id'];
-                    $vehicule = $unFraisKilometriques['idvehicule'];
+                    $vehicule = $unFraisKilometriques['vehicule'];
                     $distance = $unFraisKilometriques['distance'];?>
                      <tr>
                          <td> <?php echo $vehicule ?></td>
@@ -55,8 +55,9 @@ namespace ns;
               <div class="form-group">
                 <label for="exampleInputName2">Puissance fiscale</label>
                 <select name="idvehicule" class="form-control">
-                  <option>AA-123-AA</option>
-                  <option>AB-123-AB</option>
+                    <?php foreach ($lesVehicules as $vehicule) { ?>
+                        <option><?php echo $vehicule['immatriculation']; ?></option>
+                    <?php } ?>
               </select>
               </div>
               <div class="form-group">

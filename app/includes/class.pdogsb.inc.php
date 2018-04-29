@@ -193,6 +193,23 @@ class PdoGsb
     }
 
     /**
+     * Retourne tous les id de la table FraisForfait
+     *
+     * @return un tableau associatif
+     */
+    public function getLesVehicules($idVisiteur)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT immatriculation '
+            . 'FROM vehicule '
+            . 'WHERE vehicule.idvisiteur = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+
+    /**
      * Crée un nouveau frais kilométriques pour un visiteur un mois donné
      * à partir des informations fournies en paramètre
      *

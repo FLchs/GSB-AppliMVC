@@ -80,6 +80,7 @@ case 'supprimerFrais':
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
 $lesFraisKilometriques = $pdo->getLesFraisKilometriques($idVisiteur, $mois);
+$lesVehicules = $pdo->getLesVehicules($idVisiteur);
 
 require 'vues/v_listeFraisForfait.php';
 require 'vues/v_listeFraisKilometrique.php';
