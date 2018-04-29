@@ -194,6 +194,36 @@ class PdoGsb
     }
 
     /**
+     * Retourne sous le total des frais kilométriques concernées par les deux
+     * arguments.
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return tous total des frais kilométriques
+     */
+    public function getTotalFraisKiloemetriques($idVisiteur, $mois)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT '
+            . 'FORMAT(SUM(lignefraiskilometrique.distance * '
+            . 'puissancevehicule.bareme), 2, \'fr_FR\')  as total  '
+            . 'FROM lignefraiskilometrique '
+            . 'LEFT JOIN vehicule '
+            . 'ON lignefraiskilometrique.idvehicule = vehicule.immatriculation '
+            . 'LEFT JOIN puissancevehicule '
+            . 'ON vehicule.idpuissance = puissancevehicule.id '
+            . 'WHERE lignefraiskilometrique.idvisiteur = :unIdVisiteur '
+            . 'AND lignefraiskilometrique.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch(PDO::FETCH_ASSOC);
+        return $laLigne['total'];
+    }
+
+    /**
      * Retourne tous les id de la table FraisForfait
      *
      * @return un tableau associatif
