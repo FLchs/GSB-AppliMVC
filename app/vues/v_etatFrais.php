@@ -20,9 +20,16 @@ namespace ns;
     <div class="panel-heading">Fiche de frais du mois
         <?php echo $numMois . '-' . $numAnnee ?> : </div>
     <div class="panel-body">
-        <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
-        depuis le <?php echo $dateModif ?> <br>
-        <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?>
+        <div class="col-md-10">
+            <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
+            depuis le <?php echo $dateModif ?> <br>
+            <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?>
+        </div>
+        <div class="col-md-2">
+            <?php if ($idEtat == 'RB' ||$idEtat == 'MP') {?>
+                <a class="btn btn-primary" href="index.php?uc=genererPdf&leMois=<?php echo $leMois; ?>" role="button" target="_blank"><span class="glyphicon glyphicon-save"></span> Telécharger PDF</a>
+            <?php } ?>
+        </div>
     </div>
 </div>
 <div class="panel panel-info">
