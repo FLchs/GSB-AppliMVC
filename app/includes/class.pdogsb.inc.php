@@ -129,7 +129,6 @@ class PdoGsb
         } else {
             return false;
         }
-
     }
 
     /**
@@ -160,6 +159,141 @@ class PdoGsb
             $lesLignes[$i]['date'] = dateAnglaisVersFrancais($date);
         }
         return $lesLignes;
+    }
+
+    /**
+     * Retourne sous forme d'un tableau associatif toutes les lignes de frais
+     * kilométriques concernées par les deux arguments.
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return tous les champs des lignes de frais kilométriques sous la forme
+     * d'un tableau associatif
+     */
+    public function getLesFraisKilometriques($idVisiteur, $mois)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT lignefraiskilometrique.idvehicule AS vehicule, '
+            . 'lignefraiskilometrique.distance as distance, '
+            . 'lignefraiskilometrique.id as id, '
+            . 'FORMAT(lignefraiskilometrique.distance * puissancevehicule.bareme, 2, \'fr_FR\')  as montant '
+            . 'FROM lignefraiskilometrique '
+            . 'LEFT JOIN vehicule '
+            . 'ON lignefraiskilometrique.idvehicule = vehicule.immatriculation '
+            . 'LEFT JOIN puissancevehicule '
+            . 'ON vehicule.idpuissance = puissancevehicule.id '
+            . 'WHERE lignefraiskilometrique.idvisiteur = :unIdVisiteur '
+            . 'AND lignefraiskilometrique.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $lesLignes = $requetePrepare->fetchAll();
+        return $lesLignes;
+    }
+
+    /**
+     * Retourne sous le total des frais kilométriques concernées par les deux
+     * arguments.
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return tous total des frais kilométriques
+     */
+    public function getTotalFraisKiloemetriques($idVisiteur, $mois)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT '
+            . 'FORMAT(SUM(lignefraiskilometrique.distance * '
+            . 'puissancevehicule.bareme), 2, \'fr_FR\')  as total  '
+            . 'FROM lignefraiskilometrique '
+            . 'LEFT JOIN vehicule '
+            . 'ON lignefraiskilometrique.idvehicule = vehicule.immatriculation '
+            . 'LEFT JOIN puissancevehicule '
+            . 'ON vehicule.idpuissance = puissancevehicule.id '
+            . 'WHERE lignefraiskilometrique.idvisiteur = :unIdVisiteur '
+            . 'AND lignefraiskilometrique.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetch(PDO::FETCH_ASSOC);
+        return $laLigne['total'];
+    }
+
+    /**
+     * Retourne tous les id de la table FraisForfait
+     *
+     * @return un tableau associatif
+     */
+    public function getLesVehicules($idVisiteur)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT immatriculation '
+            . 'FROM vehicule '
+            . 'WHERE vehicule.idvisiteur = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+
+    /**
+     * Crée un nouveau frais kilométriques pour un visiteur un mois donné
+     * à partir des informations fournies en paramètre
+     *
+     * @param String  $idVisiteur ID du visiteur
+     * @param String  $mois       Mois sous la forme aaaamm
+     * @param String  $idvehicule ID du vehicule
+     * @param Integer $distance   Distance parcourue
+     *
+     * @return null
+     */
+    public function creeNouveauFraisKilometrique(
+        $idVisiteur,
+        $mois,
+        $idvehicule,
+        $distance
+    ) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'INSERT INTO lignefraiskilometrique '
+            . 'VALUES (null, :unIdVisiteur,:unMois, :unIdVehicule, :uneDistance'
+            . ') '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVehicule', $idvehicule, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':uneDistance', $distance, PDO::PARAM_INT);
+        $requetePrepare->execute();
+        print_r($requetePrepare->errorInfo());
+    }
+
+    /**
+     * Met à jour un frais kilométrique pour un id et une distance donnés
+     * à partir des informations fournies en paramètre
+     *
+     * @param String $id    Libellé du frais
+     * @param Integer $distance       Date du frais au format français jj//mm/aaaa
+     *
+     * @return null
+     */
+    public function majFraisKilometriques(
+        $id,
+        $idvehicule,
+        $distance
+    ) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE lignefraiskilometrique '
+            . 'SET distance = :uneDistance, '
+            . 'idvehicule = :unIdVehicule '
+            . 'WHERE lignefraiskilometrique.id = :unId '
+        );
+        $requetePrepare->bindParam(':uneDistance', $distance, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unId', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unIdVehicule', $idvehicule, PDO::PARAM_STR);
+        $requetePrepare->execute();
     }
 
     /**
@@ -482,6 +616,23 @@ class PdoGsb
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'DELETE FROM lignefraishorsforfait '
             . 'WHERE lignefraishorsforfait.id = :unIdFrais'
+        );
+        $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+    /**
+     * Supprime le frais hors forfait dont l'id est passé en argument
+     *
+     * @param String $idFrais ID du frais
+     *
+     * @return null
+     */
+    public function supprimerFraisKilometrique($idFrais)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'DELETE FROM lignefraiskilometrique '
+            . 'WHERE lignefraiskilometrique.id = :unIdFrais'
         );
         $requetePrepare->bindParam(':unIdFrais', $idFrais, PDO::PARAM_STR);
         $requetePrepare->execute();

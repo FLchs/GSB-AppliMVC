@@ -71,10 +71,9 @@ CREATE TABLE IF NOT EXISTS `fichefrais` (
 INSERT INTO `fichefrais` (`idvisiteur`, `mois`, `nbjustificatifs`, `montantvalide`, `datemodif`, `idetat`) VALUES
 ('a17', '201801', 0, '0.00', '2018-01-12', 'CR'),
 ('a17', '201803', 0, '0.00', '2018-03-03', 'CR'),
-('a17', '201804', 0, '0.00', '2018-04-01', 'CR'),
-('a17', '201805', NULL, NULL, NULL, 'CR'),
-('a17', '201904', NULL, NULL, NULL, 'CR'),
-('a17', '201905', NULL, NULL, NULL, 'CR');
+('a17', '201804', 0, '0.00', '2018-04-01', 'CL'),
+('a17', '201805', NULL, NULL, NULL, 'CR');
+
 
 -- --------------------------------------------------------
 
@@ -96,7 +95,6 @@ CREATE TABLE IF NOT EXISTS `fraisforfait` (
 
 INSERT INTO `fraisforfait` (`id`, `libelle`, `montant`) VALUES
 ('ETP', 'Forfait Etape', '110.00'),
-('KM', 'Frais Kilométrique', '0.62'),
 ('NUI', 'Nuitée Hôtel', '80.00'),
 ('REP', 'Repas Restaurant', '25.00');
 
@@ -122,19 +120,15 @@ CREATE TABLE IF NOT EXISTS `lignefraisforfait` (
 
 INSERT INTO `lignefraisforfait` (`idvisiteur`, `mois`, `idfraisforfait`, `quantite`) VALUES
 ('a17', '201801', 'ETP', 2),
-('a17', '201801', 'KM', 25),
 ('a17', '201801', 'NUI', 1),
 ('a17', '201801', 'REP', 2),
 ('a17', '201803', 'ETP', 21),
-('a17', '201803', 'KM', 10),
 ('a17', '201803', 'NUI', 1),
 ('a17', '201803', 'REP', 5),
 ('a17', '201804', 'ETP', 10),
-('a17', '201804', 'KM', 0),
 ('a17', '201804', 'NUI', 0),
 ('a17', '201804', 'REP', 0),
-('a17', '201805', 'ETP', 4),
-('a17', '201904', 'ETP', 6);
+('a17', '201805', 'ETP', 4);
 
 -- --------------------------------------------------------
 
@@ -160,6 +154,80 @@ CREATE TABLE IF NOT EXISTS `lignefraishorsforfait` (
 
 INSERT INTO `lignefraishorsforfait` (`id`, `idvisiteur`, `mois`, `libelle`, `date`, `montant`) VALUES
 (96, 'a17', '201804', 'kfc', '2018-04-01', '12.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lignefraiskilometrique`
+--
+
+DROP TABLE IF EXISTS `lignefraiskilometrique`;
+CREATE TABLE IF NOT EXISTS `lignefraiskilometrique` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idvisiteur` char(4) NOT NULL,
+  `mois` char(6) NOT NULL,
+  `idvehicule` varchar(10) NOT NULL,
+  `distance` integer(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idvisiteur` (`idvisiteur`,`idvehicule`, `mois`)
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `lignefraiskilometrique`
+--
+
+INSERT INTO `lignefraiskilometrique` (`id`, `idvisiteur`, `mois`, `idvehicule`, `distance`) VALUES
+(1, 'a17', '201804', 'AA-123-AA', '125'),
+(2, 'a17', '201804', 'ZZ-999-AA', '432');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicule`
+--
+
+DROP TABLE IF EXISTS `vehicule`;
+CREATE TABLE IF NOT EXISTS `vehicule` (
+  `immatriculation` varchar(20) NOT NULL,
+  `idvisiteur` char(4) NOT NULL,
+  `idpuissance` char(4) NOT NULL,
+  PRIMARY KEY (`immatriculation`),
+  KEY `idvisiteur` (`idvisiteur`,`immatriculation`)
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vehicule`
+--
+
+INSERT INTO `vehicule` (`immatriculation`, `idvisiteur`, `idpuissance`) VALUES
+('AA-123-AA', 'a17', '5D'),
+('ZZ-999-AA', 'a17', '4e');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `puissancevehicule`
+--
+
+DROP TABLE IF EXISTS `puissancevehicule`;
+CREATE TABLE IF NOT EXISTS `puissancevehicule` (
+  `id` char(3) NOT NULL,
+  `puissance` varchar(20) DEFAULT NULL,
+  `bareme` decimal(5,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fraisforfait`
+--
+
+INSERT INTO `puissancevehicule` (`id`, `puissance`, `bareme`) VALUES
+('4D', '4CV Diesel', '0.52'),
+('5D', '5/6CV Diesel', '0.58'),
+('4E', '4CV Essence', '0.62'),
+('5E', '5/6CV Essence', '0.67'),
+('GPL', 'GPL', '0.49');
+
 
 -- --------------------------------------------------------
 
@@ -239,6 +307,20 @@ INSERT INTO `comptable` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`,
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `vehicule`
+--
+ALTER TABLE `vehicule`
+  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`idvisiteur`) REFERENCES `visiteur` (`id`),
+  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`idpuissance`) REFERENCES `puissancevehicule` (`id`);
+
+--
+-- Constraints for table `vehicule`
+--
+ALTER TABLE `lignefraiskilometrique`
+  ADD CONSTRAINT `lignefraiskilometrique_ibfk_1` FOREIGN KEY (`idvehicule`) REFERENCES `vehicule` (`immatriculation`),
+  ADD CONSTRAINT `lignefraiskilometrique_ibfk_2` FOREIGN KEY (`idvisiteur`,`mois`) REFERENCES `fichefrais` (`idvisiteur`, `mois`);
 
 --
 -- Constraints for table `fichefrais`

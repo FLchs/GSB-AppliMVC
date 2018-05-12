@@ -49,6 +49,7 @@ $dateModif = dateAnglaisVersFrancais($laFicheDeFrais['dateModif']);
 $libEtat = $laFicheDeFrais['libEtat'];
 $montantValide = $laFicheDeFrais['montantValide'];
 $nbJustificatifs = $laFicheDeFrais['nbJustificatifs'];
+$fraisKilometriques = $pdo->getTotalFraisKiloemetriques($idVisiteur, $leMois);
 
 require 'vues/v_choisirVisiteurMois.php';
 

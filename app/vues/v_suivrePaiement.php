@@ -40,6 +40,7 @@ namespace ns;
                 <?php
             }
             ?>
+            <th>Frais Kilométriques</th>
         </tr>
         <tr>
             <?php
@@ -49,6 +50,7 @@ namespace ns;
                 <?php
             }
             ?>
+            <td><?php echo $fraisKilometriques; ?></td>
         </tr>
     </table>
 </div>

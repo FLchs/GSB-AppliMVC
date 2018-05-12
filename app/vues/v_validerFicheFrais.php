@@ -48,6 +48,70 @@ namespace ns;
 </div>
 <hr>
 <div class="row">
+        <div class="panel panel-info panel-info-yellow">
+            <div class="panel-heading">Frais Kilométrique</div>
+            <table class="table table-bordered-yellow table-responsive">
+                <thead>
+                    <tr>
+                        <th class="date">Véhicule</th>
+                        <th class="libelle">Distance</th>
+                        <th class="action"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($lesFraisKilometriques as $unFraisKilometriques) {
+                    $id = $unFraisKilometriques['id'];
+                    $vehicule = $unFraisKilometriques['vehicule'];
+                    $distance = $unFraisKilometriques['distance'];
+                    $montant = $unFraisKilometriques['montant'];?>
+                     <tr>
+                         <form method="post"
+                             action="./?uc=validerfichefrais&visiteur=<?php echo($idVisiteur);?>&mois=<?php echo($leMois);?>&action=validerMajFraisKilometriques"
+                             role="form">
+                             <input type="hidden" name="id" value="<?php echo $id ?>">
+                             <fieldset>
+                                 <td>
+                                     <select name="idvehicule" class="form-control">
+                                         <?php foreach ($lesVehicules as $unVehicule) { ?>
+                                             <?php if ($unVehicule['immatriculation'] == $vehicule) { ?>
+                                                 <option value="<?php echo $unVehicule['immatriculation']; ?>" selected><?php echo $unVehicule['immatriculation']; ?></option>
+                                            <?php } else { ?>
+                                                <option value=<?php echo $unVehicule['immatriculation']; ?>><?php echo $unVehicule['immatriculation']; ?></option>
+                                            <?php }
+                                                } ?>
+                                   </select>
+                                 </td>
+                                 <td>
+                                     <input type="text" id="distance"
+                                        name="distance"
+                                        size="10" maxlength="10"
+                                        value="<?php echo $distance ?>"
+                                        class="form-control">
+                                 </td>
+                                 <td>
+                                     <input type="text" id="distance"
+                                        name="distance"
+                                        size="10" maxlength="10"
+                                        value="<?php echo $montant ?>"
+                                        class="form-control" disabled>
+                                 </td>
+                                 <td>
+                                     <button class="btn btn-success" type="submit">Corriger</button>
+                                     <button class="btn btn-danger" type="reset">Réinitialiser</button>
+                                 </td>
+                             </fieldset>
+                         </form>
+                     </tr>
+
+                    <?php
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+</div>
+<div class="row">
     <div class="panel panel-info panel-info-yellow">
         <div class="panel-heading">Descriptif des éléments hors forfait</div>
         <table class="table table-bordered-yellow table-responsive">
