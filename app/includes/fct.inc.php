@@ -122,6 +122,50 @@ function getMois($date)
     return $annee . $mois;
 }
 
+/**
+ * Retourne le nom du mois en français
+ *
+ * @param String $mois au format  mm
+ *
+ * @return String Mois en toute lettres
+ */
+function getNomDuMois($mois)
+{
+    // Utilise l'extension php intl
+    $dateObj   = DateTime::createFromFormat('m', $mois);
+    $fmt = datefmt_create(
+        "fr_FR" ,IntlDateFormatter::FULL,
+        IntlDateFormatter::NONE,
+        date_default_timezone_get(),
+        IntlDateFormatter::GREGORIAN,
+        'MMMM'
+    );
+    $nomDuMois = datefmt_format( $fmt , $dateObj );
+    return $nomDuMois;
+}
+
+/**
+ * Retourne la date en toutes lettres en français
+ *
+ * @param String $date au format  aaaa/mm/jj
+ *
+ * @return String Date en toutes lettre
+ */
+function getDateEnLettres($date)
+{
+    // Utilise l'extension php intl
+    $dateObj   = DateTime::createFromFormat('Y-m-d', $date);
+    $fmt = datefmt_create(
+        "fr_FR" ,IntlDateFormatter::FULL,
+        IntlDateFormatter::NONE,
+        date_default_timezone_get(),
+        IntlDateFormatter::GREGORIAN,
+        'd MMMM Y'
+    );
+    $dateEnLettres = datefmt_format( $fmt , $dateObj );
+    return $dateEnLettres;
+}
+
 /* gestion des erreurs */
 
 /**

@@ -54,6 +54,10 @@ if ($estVisiteur) {
     case 'etatFrais':
         include 'controleurs/c_etatFrais.php';
         break;
+    case 'genererPdf':
+        $leMois = filter_input(INPUT_GET, 'leMois', FILTER_SANITIZE_STRING);
+        include 'controleurs/c_genererPdf.php';
+        break;
     }
 }
 // Routes reservées aux comptables
